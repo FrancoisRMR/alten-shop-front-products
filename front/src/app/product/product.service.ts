@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { map, Observable, of, switchMap } from "rxjs";
-import { ProductResponse } from "./products/products.interface";
+import { IProduct, ProductResponse } from "./product.interface";
 
 @Injectable({
   providedIn: "root",
@@ -39,25 +39,7 @@ export class ProductService {
     return this.http.post<ProductResponse[]>(this.apiUrl, products);
   }
 
-  send() {
-    console.log("JAI CLICK");
-    const product = {
-      code: "P001",
-      name: "Smartphone",
-      description:
-        "Un smartphone haut de gamme avec des fonctionnalités avancées.",
-      price: 599.99,
-      quantity: 50,
-      inventoryStatus: "in_stock",
-      category: "Électronique",
-      rating: 4.5,
-    };
-    this.http
-      .post<any>("http://localhost:3000/api/products", product)
-      .subscribe({
-        next: (res) => {
-          console.log("RESULT => ", res);
-        },
-      });
+  createProduct(product: IProduct): Observable<ProductResponse> {
+    return this.http.post<ProductResponse>(this.apiUrl, product);
   }
 }
