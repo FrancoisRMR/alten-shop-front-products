@@ -1,25 +1,23 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { SidenavService } from 'app/base/sidenav/sidenav.service';
+import { Component, HostBinding, OnInit } from "@angular/core";
+import { NavigationEnd, Router } from "@angular/router";
+import { filter } from "rxjs/operators";
+import { SidenavService } from "app/base/sidenav/sidenav.service";
+import { HttpClient } from "@angular/common/http";
 
-const TRANSPARENT_NAV_PAGES = [ 'login' ];
+const TRANSPARENT_NAV_PAGES = ["login"];
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent implements OnInit {
-
-  @HostBinding('class.transparent') transparent = false;
+  @HostBinding("class.transparent") transparent = false;
 
   constructor(
     private readonly router: Router,
     private readonly sidenavService: SidenavService
-  ) {
-   
-  }
+  ) {}
 
   get getExpanded(): boolean {
     return this.sidenavService.getExpanded();
@@ -28,7 +26,5 @@ export class AppComponent implements OnInit {
     return this.sidenavService.getPinned();
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 }

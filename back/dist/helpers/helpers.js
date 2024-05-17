@@ -1,4 +1,3 @@
-"use strict";
 // import * as jwt from "jsonwebtoken";
 // import * as bcrypt from "bcrypt";
 // import * as dotenv from "dotenv";
@@ -16,3 +15,4 @@
 //     return jwt.sign(payload, JWT_SECRET, { expiresIn: "1d" });
 //   }
 // }
+//# sourceMappingURL=helpers.js.map

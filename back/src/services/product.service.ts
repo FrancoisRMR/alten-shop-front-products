@@ -10,8 +10,18 @@ export class ProductService {
     return this.productRepository.find();
   }
 
-  createProduct(product: CreateProductDto) {
-    const newProduct = { ...new Product(), ...product };
+  createProduct(product: CreateProductDto): Promise<Product> {
+    const newProduct: CreateProductDto = { ...new Product(), ...product };
     return this.productRepository.save(newProduct);
+  }
+
+  createProducts(products: CreateProductDto[]): Promise<Product[]> {
+    const newProducts: CreateProductDto[] = products.map(
+      (product: CreateProductDto) => {
+        return { ...new Product(), ...product };
+      }
+    );
+
+    return this.productRepository.save(newProducts);
   }
 }

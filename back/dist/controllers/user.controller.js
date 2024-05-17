@@ -1,4 +1,3 @@
-"use strict";
 // import { Request, Response } from "express";
 // import { AppDataSource } from "../data-source";
 // import { User } from "../entity/User.entity";
@@ -25,3 +24,4 @@
 //       .status(200)
 //       .json({ message: "User created successfully", token, userDataSent });
 //   }
+//# sourceMappingURL=user.controller.js.map

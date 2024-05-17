@@ -17,7 +17,7 @@ export class CreateProductDto {
   quantity: number;
 
   @Expose()
-  inventorystatus: string;
+  inventoryStatus: string;
 
   @Expose()
   category: string;
@@ -27,4 +27,9 @@ export class CreateProductDto {
 
   @Expose()
   rating?: number;
+}
+
+export class ProductResponseDto extends CreateProductDto {
+  @Expose()
+  id: number;
 }
