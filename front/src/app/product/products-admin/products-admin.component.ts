@@ -98,7 +98,9 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
       this.productService.products$.subscribe({
         next: (products: IProductResponse[]) => {
           this.data = products;
-          this.initializeOptions(products[0]);
+          if (products.length) {
+            this.initializeOptions(products[0]);
+          }
         },
       })
     );
@@ -136,6 +138,7 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
                 "code",
                 "asc"
               );
+              this.productService.products = this.data;
               this.snackbarService.displaySuccess();
             },
             error: (error) => {
@@ -156,6 +159,7 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
                 "code",
                 "asc"
               );
+              this.productService.products = this.data;
               this.snackbarService.displaySuccess();
             },
             error: (error) => {
@@ -181,6 +185,7 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
               "code",
               "asc"
             );
+            this.productService.products = this.data;
             this.snackbarService.displaySuccess();
           },
           error: (error) => {
@@ -201,6 +206,7 @@ export class ProductsAdminComponent implements OnInit, OnDestroy {
               "code",
               "asc"
             );
+            this.productService.products = this.data;
             this.snackbarService.displaySuccess();
           },
           error: (error) => {

@@ -2,9 +2,10 @@
   <app-list
     [items]="data"
     [gridItemTemplate]="gridItemTemplate"
-    [listItemTemplate]="gridItemTemplate"
+    [listItemTemplate]="listItemTemplate"
     [sortKey]="sortKey"
     [sortOptions]="options"
+    layout="list"
     (filtered)="filtered($event)"
   ></app-list>
 </div>
@@ -39,7 +40,7 @@
       class="d-flex flex-column justify-content-between align-items-center flex-1 gap-1"
     >
       <!-- CATEGORY -->
-      <div class="d-flex flex-row gap-1">
+      <div class="d-flex flex-row align-items-center gap-1">
         <i class="pi pi-tag" style="color: 'var(--primary-color)'"></i>
         <span class="font-medium text-secondary text-sm">{{
           item.category
@@ -71,6 +72,76 @@
           [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
         ></p-button>
       </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- GRID TEMPLATE -->
+<ng-template #listItemTemplate let-item let-i="rowIndex" let-display="display">
+  <div
+    class="d-flex flex-row justify-content-between align-items-center w-100"
+    [ngClass]="{ 'border-top-1 surface-border': i !== 0 }"
+  >
+    <div class="d-flex flex-row align-items-center gap-3">
+      <div class="position-relative">
+        <!-- IMAGE -->
+        <img
+          class="block mx-auto rounded"
+          [src]="
+            'https://primefaces.org/cdn/primeng/images/demo/product/' +
+            item.image
+          "
+          [alt]="item.name"
+        />
+
+        <!-- INVENTORY STATUS -->
+        <p-tag
+          [value]="item.inventoryStatus"
+          [severity]="getSeverity(item)"
+          class="position-absolute"
+          [style.left.px]="4"
+          [style.top.px]="4"
+        ></p-tag>
+      </div>
+
+      <div
+        class="d-flex flex-column justify-content-between align-items-center flex-1 gap-3"
+      >
+        <div class="d-flex flex-column align-items-start">
+          <!-- CATEGORY -->
+          <div class="d-flex flex-row align-items-center gap-1">
+            <i class="pi pi-tag" style="color: 'var(--primary-color)'"></i>
+            <span class="font-medium text-secondary text-sm">{{
+              item.category
+            }}</span>
+          </div>
+
+          <!-- NAME -->
+          <div class="text-lg font-medium text-900">{{ item.name }}</div>
+
+          <!-- RATING -->
+          <p-rating
+            [ngModel]="item.rating"
+            [readonly]="true"
+            [cancel]="false"
+          ></p-rating>
+        </div>
+      </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="text-lg font-medium text-900">{{ item.description }}</div>
+
+    <div class="d-flex justify-content-end align-items-center gap-2">
+      <!-- PRICE -->
+      <span class="bold">{{ "$" + item.price }}</span>
+
+      <!-- CART BUTTON -->
+      <p-button
+        icon="pi pi-shopping-cart"
+        class="flex-auto md:flex-initial white-space-nowrap"
+        [disabled]="item.inventoryStatus === 'OUTOFSTOCK'"
+      ></p-button>
     </div>
   </div>
 </ng-template>
