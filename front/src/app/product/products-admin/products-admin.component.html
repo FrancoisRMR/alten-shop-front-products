@@ -1,2 +1,14 @@
-<p>products-admin works!</p>
-<button>SEND DATAAAAAAA</button>
+<div class="app-frame">
+  <app-table
+    [data]="data"
+    [config]="options"
+    [selectable]="true"
+    [allowAdd]="true"
+    [allowDelete]="true"
+    [allowEdit]="true"
+    [multiSelect]="true"
+    [entity]="entity"
+    (saved)="saveProduct($event)"
+    (deleted)="removeProduct($event)"
+  ></app-table>
+</div>

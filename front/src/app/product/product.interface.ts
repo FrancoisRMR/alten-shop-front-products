@@ -25,44 +25,42 @@ export class Product {
   rating?: number;
 }
 
-export interface ProductResponse extends IProduct {
+export interface IProductResponse extends IProduct {
   id: number;
 }
 
 export enum InventoryStatus {
+  NONE = "N/A",
   INSTOCK = "INSTOCK",
   LOWSTOCK = "LOWSTOCK",
   OUTOFSTOCK = "OUTOFSTOCK",
 }
 
 export enum Categorie {
+  NONE = "N/A",
   ACCESSORIES = "Accessories",
   FITNESS = "Fitness",
   CLOTHING = "Clothing",
   ELECTRONICS = "Electronics",
 }
 
-export interface ProductOptions {
-  code: TableOptions;
-  name: TableOptions;
-  description: TableOptions;
-  price: TableOptions;
-  quantity: TableOptions;
-  inventoryStatus: TableOptions;
-  category: TableOptions;
-  image?: TableOptions;
-  rating?: TableOptions;
+export interface IProductOptions {
+  id?: ITableOptions;
+  code: ITableOptions;
+  name: ITableOptions;
+  description: ITableOptions;
+  price: ITableOptions;
+  quantity: ITableOptions;
+  inventoryStatus: ITableOptions;
+  category: ITableOptions;
+  image?: ITableOptions;
+  rating?: ITableOptions;
 }
 
-export interface TableOptions {
+export interface ITableOptions {
   controlType: ControlType;
   type?: string;
   isColumnOptionsByDefault?: boolean;
   options?: SelectItem[];
   value?: any;
-}
-
-export class Test {
-  code: string;
-  name: string;
 }

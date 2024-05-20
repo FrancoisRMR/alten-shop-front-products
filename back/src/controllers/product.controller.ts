@@ -1,6 +1,10 @@
 import { plainToInstance } from "class-transformer";
 import { NextFunction, Request, Response } from "express";
-import { CreateProductDto, ProductResponseDto } from "../dto/product.dto";
+import {
+  CreateProductDto,
+  ProductResponseDto,
+  UpdateProductDto,
+} from "../dto/product.dto";
 import { Product } from "../entity/Product.entity";
 import { ProductService } from "../services/product.service";
 
@@ -19,9 +23,7 @@ export class ProductController {
         );
         res.status(200).json(productsResponseDTO);
       })
-      .catch((error) => {
-        next(error);
-      });
+      .catch(next);
   }
 
   createProduct(req: Request, res: Response, next: NextFunction): void {
@@ -39,9 +41,7 @@ export class ProductController {
         .then((products: Product[]) => {
           res.status(200).json(products);
         })
-        .catch((error) => {
-          next(error);
-        });
+        .catch(next);
     } else {
       const createProduct: CreateProductDto = plainToInstance(
         CreateProductDto,
@@ -55,9 +55,48 @@ export class ProductController {
         .then((product: Product) => {
           res.status(200).json(product);
         })
-        .catch((error) => {
-          next(error);
-        });
+        .catch(next);
     }
+  }
+
+  patchProduct(req: Request, res: Response, next: NextFunction): void {
+    const productService: ProductService = new ProductService();
+    const { id } = req.params;
+    const updateProduct: UpdateProductDto = plainToInstance(
+      CreateProductDto,
+      req.body,
+      {
+        excludeExtraneousValues: true,
+      }
+    );
+    productService
+      .updateProduct(+id, updateProduct)
+      .then((product: Product) => {
+        res.status(200).json(product);
+      })
+      .catch(next);
+  }
+
+  deleteProduct(req: Request, res: Response, next: NextFunction): void {
+    const productService: ProductService = new ProductService();
+    const { id } = req.params;
+    productService
+      .deleteProduct(+id)
+      .then(() => {
+        res.status(204).send();
+      })
+      .catch(next);
+  }
+
+  deleteProducts(req: Request, res: Response, next: NextFunction): void {
+    const ids: number[] = req.body;
+    const productService: ProductService = new ProductService();
+
+    productService
+      .deleteProducts(ids)
+      .then(() => {
+        res.status(204).send();
+      })
+      .catch(next);
   }
 }

@@ -12,7 +12,7 @@ export class ColumnOptions {
   /** Should the column be visible by default and not removable */
   default?: boolean;
   /** If set to true, the column won't appear in the table nor in the column management dialog */
-  hidden?: true;
+  hidden?: boolean;
   /** Specifies a custom renderer for datatable cells */
   customCellRenderer?: (cellValue: unknown) => string;
 }
