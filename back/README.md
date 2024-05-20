@@ -1,4 +1,4 @@
-# Awesome Project Build with TypeORM
+# Alten shop backend
 
 Steps to run this project:
 
