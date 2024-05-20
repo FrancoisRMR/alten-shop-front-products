@@ -427,8 +427,9 @@ app-footer {
   }
 }
 
-.p-datatable-custom-wrapper {
-  .p-datatable-wrapper {
+.p-custom-wrapper {
+  .p-datatable-wrapper,
+  .p-dataview-content {
     max-height: calc(100vh - 280px);
   }
 }

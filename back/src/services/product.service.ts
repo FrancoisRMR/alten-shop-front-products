@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { AppDataSource } from "../data-source";
-import { Product } from "../entity/Product.entity";
 import { CreateProductDto, UpdateProductDto } from "../dto/product.dto";
+import { Product } from "../entity/Product.entity";
 
 export class ProductService {
   productRepository: Repository<Product> = AppDataSource.getRepository(Product);

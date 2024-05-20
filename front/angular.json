@@ -39,8 +39,13 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest"],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/manifest.webmanifest"
+            ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss",
               {
                 "input": "src/app/styles/dark.css",
@@ -53,6 +58,7 @@
                 "inject": false
               }
             ],
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js"],
             "stylePreprocessorOptions": {
               "includePaths": ["src/app/styles"]
             },

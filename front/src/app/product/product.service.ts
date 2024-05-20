@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { map, Observable, of, switchMap } from "rxjs";
+import { BehaviorSubject, map, Observable, of, switchMap } from "rxjs";
 import {
   Categorie,
   InventoryStatus,
@@ -12,8 +12,19 @@ import {
   providedIn: "root",
 })
 export class ProductService {
-  apiUrl: string = "http://localhost:3000/api/products";
+  private apiUrl: string = "http://localhost:3000/api/products";
+  private productsSubject$: BehaviorSubject<IProductResponse[]> =
+    new BehaviorSubject([]);
+
   constructor(private http: HttpClient) {}
+
+  get products$(): Observable<IProductResponse[]> {
+    return this.productsSubject$.asObservable();
+  }
+
+  set products(products: IProductResponse[]) {
+    this.productsSubject$.next(products);
+  }
 
   getAllProductsFromDatabase(): Observable<IProductResponse[]> {
     return this.http.get<IProductResponse[]>(this.apiUrl).pipe(
@@ -32,7 +43,7 @@ export class ProductService {
   }
 
   getAllProductsFromJsonFile(): Observable<IProductResponse[]> {
-    const url: string = "../../assets/products.json";
+    const url: string = "./assets/products.json";
     return this.http
       .get<{ data: IProductResponse[] }>(url)
       .pipe(map((products: { data: IProductResponse[] }) => products.data));
@@ -46,7 +57,6 @@ export class ProductService {
 
   createProduct(product: IProduct): Observable<IProductResponse> {
     const managedProduct: IProduct = this.manageProductValue(product);
-    console.log("managedProduct => ", managedProduct);
     return this.http.post<IProductResponse>(this.apiUrl, managedProduct);
   }
 

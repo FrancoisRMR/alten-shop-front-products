@@ -1,4 +1,6 @@
-<p-dataView #dv [value]="items"
+<p-dataView
+  #dv
+  [value]="items"
   [paginator]="true"
   [rows]="searchParams.rows"
   [totalRecords]="totalRecords || items.length"
@@ -11,38 +13,58 @@
   [showJumpToPageDropdown]="false"
   [showCurrentPageReport]="true"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [rowsPerPageOptions]="[10,25,50]">
+  [rowsPerPageOptions]="[10, 25, 50]"
+  styleClass="p-custom-wrapper"
+>
   <!-- Header -->
   <ng-template pTemplate="header">
     <div class="form-control-container">
-      <p-dropdown [options]="sortOptions"
+      <p-dropdown
+        [options]="sortOptions"
         class="h-45"
         placeholder="Sort By"
         [formControl]="sortCtrl"
-        styleClass="p-mb-2 p-mb-md-0">
+        styleClass="p-mb-2 p-mb-md-0 h-100 mr-2"
+      >
       </p-dropdown>
-      <span class="p-input-icon-left h-45 grow m-5">
+      <span class="p-input-icon-left h-45 grow">
         <i class="pi pi-search"></i>
-        <input #searchInput
+        <input
+          #searchInput
           type="search"
           pInputText
           placeholder="Search"
-          [formControl]="searchCtrl">
+          [formControl]="searchCtrl"
+        />
       </span>
-      <div *ngIf="enableDateRange" class="h-45 m-5">
-        <p-calendar [formControl]="dateRangeCtrl" selectionMode="range" [readonlyInput]="true" inputId="range" [showButtonBar]="true"></p-calendar>
+      <div *ngIf="enableDateRange" class="h-45">
+        <p-calendar
+          [formControl]="dateRangeCtrl"
+          selectionMode="range"
+          [readonlyInput]="true"
+          inputId="range"
+          [showButtonBar]="true"
+        ></p-calendar>
       </div>
-      <p-dataViewLayoutOptions class="h-45 m-5"></p-dataViewLayoutOptions>
-      <button *ngIf="selectable"
+      <p-dataViewLayoutOptions class="h-45"></p-dataViewLayoutOptions>
+      <button
+        *ngIf="selectable"
         pButton
         pRipple
         icon="pi pi-trash"
         class="h-45 p-button-danger"
         (click)="onDeleteSelection()"
         [disabled]="!selection.length"
-        style="margin: 0 5px;">
-      </button>
-      <button *ngIf="enableAdd" pButton pRipple icon="pi pi-plus" class="h-45" (click)="add()"></button>
+        style="margin: 0 5px"
+      ></button>
+      <button
+        *ngIf="enableAdd"
+        pButton
+        pRipple
+        icon="pi pi-plus"
+        class="h-45"
+        (click)="add()"
+      ></button>
     </div>
   </ng-template>
   <!-- List item template -->
@@ -51,10 +73,20 @@
       <div class="list-item">
         <ng-container *ngIf="selectable">
           <div class="checkbox">
-            <p-checkbox [binary]="true" (onChange)="selectItem($event, item)"></p-checkbox>
+            <p-checkbox
+              [binary]="true"
+              (onChange)="selectItem($event, item)"
+            ></p-checkbox>
           </div>
         </ng-container>
-        <ng-container [ngTemplateOutlet]="listItemTemplate" [ngTemplateOutletContext]="{$implicit: item, index: i, display: 'list'}"></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="listItemTemplate"
+          [ngTemplateOutletContext]="{
+            $implicit: item,
+            index: i,
+            display: 'list'
+          }"
+        ></ng-container>
       </div>
     </div>
   </ng-template>
@@ -62,7 +94,14 @@
   <ng-template let-item let-i="rowIndex" pTemplate="gridItem">
     <div class="grid-item-container">
       <div class="grid-item">
-        <ng-container [ngTemplateOutlet]="gridItemTemplate" [ngTemplateOutletContext]="{$implicit: item, index: i, display: 'grid'}"></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="gridItemTemplate"
+          [ngTemplateOutletContext]="{
+            $implicit: item,
+            index: i,
+            display: 'grid'
+          }"
+        ></ng-container>
       </div>
     </div>
   </ng-template>

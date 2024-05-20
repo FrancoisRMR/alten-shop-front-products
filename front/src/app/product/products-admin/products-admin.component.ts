@@ -1,8 +1,8 @@
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ControlType } from "app/shared/utils/crud-item-options/control-type.model";
 import { CrudItemOptions } from "app/shared/utils/crud-item-options/crud-item-options.model";
 import { SnackbarService } from "app/shared/utils/snackbar/snackbar.service";
-import * as _ from "lodash";
+import { UtilsService } from "app/shared/utils/utils.service";
 import { Subscription } from "rxjs";
 import {
   Categorie,
@@ -19,7 +19,7 @@ import { ProductService } from "../product.service";
   templateUrl: "./products-admin.component.html",
   styleUrls: ["./products-admin.component.scss"],
 })
-export class ProductsAdminComponent implements OnDestroy {
+export class ProductsAdminComponent implements OnInit, OnDestroy {
   data: IProductResponse[] = [];
   entity = Product;
   options: CrudItemOptions[];
@@ -89,21 +89,16 @@ export class ProductsAdminComponent implements OnDestroy {
 
   constructor(
     private readonly productService: ProductService,
-    private readonly snackbarService: SnackbarService
-  ) {
-    this.initializeProducts();
-  }
+    private readonly snackbarService: SnackbarService,
+    private readonly utilsService: UtilsService<IProductResponse>
+  ) {}
 
-  initializeProducts() {
+  ngOnInit(): void {
     this.subscriptions.add(
-      this.productService.getAllProductsFromDatabase().subscribe({
+      this.productService.products$.subscribe({
         next: (products: IProductResponse[]) => {
           this.data = products;
-          this.sortDataByCodeAsc();
           this.initializeOptions(products[0]);
-        },
-        error: () => {
-          this.snackbarService.displayError();
         },
       })
     );
@@ -136,8 +131,11 @@ export class ProductsAdminComponent implements OnDestroy {
         this.subscriptions.add(
           this.productService.createProduct(product).subscribe({
             next: (createdProduct: IProductResponse) => {
-              this.data = [...this.data, createdProduct];
-              this.sortDataByCodeAsc();
+              this.data = this.utilsService.sortArrayOfObjectByPropAndOrder(
+                [...this.data, createdProduct],
+                "code",
+                "asc"
+              );
               this.snackbarService.displaySuccess();
             },
             error: (error) => {
@@ -151,10 +149,13 @@ export class ProductsAdminComponent implements OnDestroy {
         this.subscriptions.add(
           this.productService.updateProduct(product, id).subscribe({
             next: (updatedProduct: IProductResponse) => {
-              this.data = this.data.map((product: IProductResponse) =>
-                product.id === updatedProduct.id ? updatedProduct : product
+              this.data = this.utilsService.sortArrayOfObjectByPropAndOrder(
+                this.data.map((product: IProductResponse) =>
+                  product.id === updatedProduct.id ? updatedProduct : product
+                ),
+                "code",
+                "asc"
               );
-              this.sortDataByCodeAsc();
               this.snackbarService.displaySuccess();
             },
             error: (error) => {
@@ -173,10 +174,13 @@ export class ProductsAdminComponent implements OnDestroy {
       this.subscriptions.add(
         this.productService.deleteProduct(ids[0]).subscribe({
           next: () => {
-            this.data = this.data.filter(
-              (product: IProductResponse) => product.id !== ids[0]
+            this.data = this.utilsService.sortArrayOfObjectByPropAndOrder(
+              this.data.filter(
+                (product: IProductResponse) => product.id !== ids[0]
+              ),
+              "code",
+              "asc"
             );
-            this.sortDataByCodeAsc();
             this.snackbarService.displaySuccess();
           },
           error: (error) => {
@@ -190,10 +194,13 @@ export class ProductsAdminComponent implements OnDestroy {
       this.subscriptions.add(
         this.productService.deleteMultipleProduct(ids).subscribe({
           next: () => {
-            this.data = this.data.filter(
-              (product: IProductResponse) => !ids.includes(product.id)
+            this.data = this.utilsService.sortArrayOfObjectByPropAndOrder(
+              this.data.filter(
+                (product: IProductResponse) => !ids.includes(product.id)
+              ),
+              "code",
+              "asc"
             );
-            this.sortDataByCodeAsc();
             this.snackbarService.displaySuccess();
           },
           error: (error) => {
@@ -204,10 +211,6 @@ export class ProductsAdminComponent implements OnDestroy {
         })
       );
     }
-  }
-
-  sortDataByCodeAsc() {
-    this.data = _.orderBy(this.data, ["code"], ["asc"]);
   }
 
   ngOnDestroy(): void {

@@ -1,0 +1,22 @@
+:host ::ng-deep app-list {
+  .grid-item-container {
+    width: 20%;
+
+    .grid-item {
+      height: initial;
+      padding: 0;
+      padding-bottom: 0.5rem;
+      border-radius: 4px;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid var(--secondary-bg-color);
+
+      &:hover {
+        background-color: var(--tertiary-bg-color);
+      }
+    }
+  }
+}

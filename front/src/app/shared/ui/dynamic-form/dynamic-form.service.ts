@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
-import { CrudItemOptions } from "app/shared/utils/crud-item-options/crud-item-options.model";
 import { ControlValidator } from "app/shared/utils/crud-item-options/control-options.model";
+import { CrudItemOptions } from "app/shared/utils/crud-item-options/crud-item-options.model";
 
 @Injectable()
 export class DynamicFormService {
@@ -13,7 +13,6 @@ export class DynamicFormService {
     controls.forEach((control) => {
       const value = this.getValue(control);
       const validators = this.getValidators(control);
-      console.log("validators => ", validators);
       group[control.key] = new FormControl(value, validators);
     });
     return new FormGroup(group);

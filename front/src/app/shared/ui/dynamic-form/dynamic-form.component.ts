@@ -43,8 +43,6 @@ export class DynamicFormComponent<T> implements OnInit {
       // Emit changes
       this.formChanged.emit({ value: formValue, valid: this.form.valid });
     });
-
-    console.log("form => ", this.form);
   }
 
   public updateControl(event: { ctrl: string; value: unknown }) {

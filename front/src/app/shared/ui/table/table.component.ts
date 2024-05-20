@@ -9,12 +9,12 @@ import {
   ViewChild,
 } from "@angular/core";
 import { isArray } from "@dwtechs/checkhard";
-import { CrudItemOptions } from "app/shared/utils/crud-item-options/crud-item-options.model";
 import { TableLazyLoadEvent } from "app/shared/ui/table/table-lazyload-event.model";
+import { ControlType } from "app/shared/utils/crud-item-options/control-type.model";
+import { CrudItemOptions } from "app/shared/utils/crud-item-options/crud-item-options.model";
 import { LazyLoadEvent, SelectItem } from "primeng/api";
 import { Table } from "primeng/table";
 import { TableColumn } from "./table-column.model";
-import { ControlType } from "app/shared/utils/crud-item-options/control-type.model";
 
 @Component({
   selector: "app-table",
@@ -56,7 +56,6 @@ export class TableComponent<T> implements OnChanges {
     const configChanged = JSON.stringify(config) !== JSON.stringify(prevConfig);
     if (config && configChanged) {
       this.cols = this.getColumns();
-      console.log("COLS => ", this.cols);
     }
     const { currentValue: data, previousValue: prevData } = changes.data ?? {};
     if (data && prevData) {
@@ -76,7 +75,6 @@ export class TableComponent<T> implements OnChanges {
   }
 
   public onEdit(rowData: T): void {
-    console.log("rowData => ", rowData);
     this.editedEntry = { ...rowData };
     this.creation = false;
     this.entryEditionDialogDisplayed = true;
